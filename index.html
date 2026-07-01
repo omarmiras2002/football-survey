@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Air Arena — Опросник качества</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --black:#0d0d0d;
+  --black2:#141414;
+  --card:#1a1a1a;
+  --card2:#1f1f1f;
+  --border:#2a2a2a;
+  --border2:#333;
+  --green:#39FF6A;
+  --green-dim:rgba(57,255,106,0.12);
+  --green-border:rgba(57,255,106,0.25);
+  --white:#ffffff;
+  --gray:#888;
+  --gray2:#555;
+}
+
+body{
+  font-family:'Inter',sans-serif;
+  background:var(--black);
+  color:var(--white);
+  min-height:100vh;
+}
+
+/* ── HEADER ── */
+.header{
+  background:var(--black2);
+  border-bottom:1px solid var(--border);
+  padding:0 1.5rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  height:56px;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+
+.logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:22px;
+  letter-spacing:.08em;
+  color:var(--white);
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.logo-dot{
+  width:8px;height:8px;
+  background:var(--green);
+  border-radius:50%;
+  animation:pulse 2s infinite;
+}
+
+@keyframes pulse{
+  0%,100%{opacity:1;transform:scale(1)}
+  50%{opacity:.5;transform:scale(.8)}
+}
+
+.header-tag{
+  font-size:11px;
+  color:var(--gray);
+  letter-spacing:.04em;
+}
+
+/* ── HERO ── */
+.hero{
+  padding:3rem 1.5rem 2rem;
+  max-width:680px;
+  margin:0 auto;
+}
+
+.hero-eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--green);
+  margin-bottom:1.25rem;
+}
+
+.hero-eyebrow::before{
+  content:'';
+  display:block;
+  width:20px;height:1px;
+  background:var(--green);
+}
+
+h1{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(42px,9vw,72px);
+  letter-spacing:.04em;
+  line-height:.95;
+  color:var(--white);
+  margin-bottom:.75rem;
+}
+
+h1 em{
+  font-style:normal;
+  color:var(--green);
+  -webkit-text-stroke:0px;
+}
+
+.hero-sub{
+  font-size:14px;
+  color:var(--gray);
+  line-height:1.6;
+  max-width:460px;
+}
+
+/* ── PROGRESS ── */
+.progress-wrap{
+  max-width:680px;
+  margin:0 auto;
+  padding:0 1.5rem 1.5rem;
+}
+
+.progress-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:8px;
+}
+
+.progress-label{font-size:12px;color:var(--gray)}
+.progress-pct{font-size:12px;color:var(--green);font-weight:600}
+
+.progress-track{
+  height:2px;
+  background:var(--border);
+  border-radius:2px;
+  overflow:hidden;
+}
+
+.progress-fill{
+  height:100%;
+  background:var(--green);
+  border-radius:2px;
+  transition:width .5s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 0 8px rgba(57,255,106,.5);
+}
+
+/* ── STEPS ── */
+.step{display:none}
+.step.active{display:block}
+
+.page{max-width:680px;margin:0 auto;padding:0 1.5rem 5rem}
+
+/* ── SECTION BLOCK ── */
+.block{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:1.5rem;
+  margin-bottom:1px;
+}
+
+.block:first-of-type{border-radius:12px 12px 4px 4px}
+.block:last-of-type{border-radius:4px 4px 12px 12px;margin-bottom:1rem}
+.block:only-of-type{border-radius:12px;margin-bottom:1rem}
+
+.block-label{
+  font-size:10px;
+  font-weight:700;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--green);
+  margin-bottom:1.25rem;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+.block-label::after{
+  content:'';
+  flex:1;
+  height:1px;
+  background:var(--border);
+}
+
+/* ── QUESTION ── */
+.q{margin-bottom:1.4rem}
+.q:last-child{margin-bottom:0}
+
+.q-label{
+  font-size:14px;
+  font-weight:500;
+  color:var(--white);
+  margin-bottom:.5rem;
+  line-height:1.45;
+}
+
+.q-hint{
+  font-size:12px;
+  color:var(--gray);
+  margin-bottom:.6rem;
+}
+
+.optional{
+  font-weight:400;
+  color:var(--gray2);
+  font-size:12px;
+}
+
+/* ── STARS ── */
+.stars{display:flex;gap:4px;margin-top:.15rem}
+
+.star{
+  font-size:28px;
+  cursor:pointer;
+  color:var(--border2);
+  transition:color .1s,text-shadow .1s;
+  user-select:none;
+  line-height:1;
+}
+
+.star.on{
+  color:var(--green);
+  text-shadow:0 0 12px rgba(57,255,106,.4);
+}
+
+.star:hover{color:var(--green)}
+
+/* ── PILLS ── */
+.pills{display:flex;flex-wrap:wrap;gap:6px;margin-top:.2rem}
+
+.pill{
+  border:1px solid var(--border2);
+  border-radius:4px;
+  padding:6px 13px;
+  font-size:12px;
+  font-weight:500;
+  cursor:pointer;
+  color:var(--gray);
+  background:transparent;
+  transition:all .15s;
+  letter-spacing:.01em;
+}
+
+.pill:hover{
+  border-color:var(--green-border);
+  color:var(--white);
+  background:var(--green-dim);
+}
+
+.pill.active{
+  border-color:var(--green);
+  color:var(--green);
+  background:var(--green-dim);
+}
+
+/* ── RADIO ── */
+.radio-group{display:flex;flex-direction:column;gap:4px}
+
+.radio-item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:10px 14px;
+  border:1px solid var(--border);
+  border-radius:6px;
+  cursor:pointer;
+  font-size:13px;
+  color:var(--gray);
+  transition:all .15s;
+}
+
+.radio-item:hover{
+  border-color:var(--border2);
+  color:var(--white);
+  background:rgba(255,255,255,.02);
+}
+
+.radio-item.active{
+  border-color:var(--green);
+  color:var(--white);
+  background:var(--green-dim);
+}
+
+.rdot{
+  width:16px;height:16px;
+  border-radius:50%;
+  border:1.5px solid var(--gray2);
+  flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  transition:border-color .15s;
+}
+
+.radio-item.active .rdot{border-color:var(--green)}
+
+.rdot::after{
+  content:'';width:7px;height:7px;
+  border-radius:50%;
+  background:var(--green);
+  display:none;
+}
+
+.radio-item.active .rdot::after{display:block}
+
+/* ── TEXTAREA ── */
+textarea{
+  width:100%;
+  background:rgba(255,255,255,.03);
+  border:1px solid var(--border);
+  border-radius:6px;
+  padding:10px 12px;
+  font-size:13px;
+  font-family:'Inter',sans-serif;
+  color:var(--white);
+  resize:vertical;
+  min-height:76px;
+  line-height:1.55;
+  transition:border-color .15s;
+}
+
+textarea::placeholder{color:var(--gray2)}
+textarea:focus{outline:none;border-color:var(--green)}
+
+/* ── NPS ── */
+.nps-row{display:flex;gap:4px;flex-wrap:wrap}
+
+.nps-btn{
+  width:44px;height:36px;
+  border:1px solid var(--border);
+  border-radius:4px;
+  background:transparent;
+  color:var(--gray);
+  font-size:12px;font-weight:600;
+  font-family:'Inter',sans-serif;
+  cursor:pointer;
+  transition:all .15s;
+}
+
+.nps-btn:hover{
+  border-color:var(--green-border);
+  color:var(--white);
+  background:var(--green-dim);
+}
+
+.nps-btn.active{
+  border-color:var(--green);
+  background:var(--green);
+  color:var(--black);
+  font-weight:700;
+}
+
+.nps-labels{
+  display:flex;
+  justify-content:space-between;
+  font-size:11px;
+  color:var(--gray2);
+  margin-top:6px;
+}
+
+/* ── DIVIDER ── */
+.divider{height:1px;background:var(--border);margin:1.25rem 0}
+
+/* ── NAV ── */
+.nav{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding-top:1.5rem;
+}
+
+.btn-back{
+  display:flex;align-items:center;gap:6px;
+  background:transparent;
+  border:1px solid var(--border2);
+  border-radius:6px;
+  padding:9px 18px;
+  font-size:13px;font-weight:500;
+  font-family:'Inter',sans-serif;
+  color:var(--gray);
+  cursor:pointer;
+  transition:all .15s;
+}
+
+.btn-back:hover{border-color:var(--gray);color:var(--white)}
+
+.step-count{font-size:12px;color:var(--gray2)}
+
+.btn-next,.btn-submit{
+  display:flex;align-items:center;gap:7px;
+  background:var(--green);
+  border:none;
+  border-radius:6px;
+  padding:10px 22px;
+  font-size:13px;font-weight:700;
+  font-family:'Inter',sans-serif;
+  color:var(--black);
+  cursor:pointer;
+  letter-spacing:.02em;
+  transition:all .15s;
+  box-shadow:0 0 20px rgba(57,255,106,.2);
+}
+
+.btn-next:hover,.btn-submit:hover{
+  background:#4dff7c;
+  box-shadow:0 0 30px rgba(57,255,106,.35);
+}
+
+.btn-next:active,.btn-submit:active{transform:scale(.98)}
+
+.btn-next svg,.btn-back svg{width:13px;height:13px}
+
+/* ── THANK YOU ── */
+.thankyou{
+  text-align:center;
+  padding:4rem 1rem;
+  max-width:480px;
+  margin:0 auto;
+}
+
+.ty-ring{
+  width:72px;height:72px;
+  border-radius:50%;
+  border:1px solid var(--green);
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 1.5rem;
+  box-shadow:0 0 30px rgba(57,255,106,.2);
+}
+
+.ty-ring svg{width:32px;height:32px;color:var(--green)}
+
+.ty-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:42px;
+  letter-spacing:.04em;
+  color:var(--white);
+  margin-bottom:.5rem;
+}
+
+.ty-sub{
+  font-size:14px;color:var(--gray);
+  line-height:1.7;
+  margin-bottom:2rem;
+}
+
+/* ── STEP INDICATOR DOTS ── */
+.dots{
+  display:flex;gap:5px;justify-content:center;
+  margin-bottom:2rem;
+}
+
+.dot{
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--border2);
+  transition:all .3s;
+}
+
+.dot.active{background:var(--green);box-shadow:0 0 6px rgba(57,255,106,.5)}
+.dot.done{background:var(--green-border)}
+
+@media(max-width:480px){
+  .hero{padding:2rem 1rem 1.5rem}
+  .page{padding:0 1rem 5rem}
+  .block{padding:1.25rem 1rem}
+  h1{font-size:38px}
+  .nps-btn{width:38px;height:32px;font-size:11px}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">
+    <div class="logo-dot"></div>
+    AIR ARENA
+  </div>
+  <div class="header-tag">FEEDBACK SYSTEM</div>
+</div>
+
+<div class="hero">
+  <div class="hero-eyebrow">Опросник клуба</div>
+  <h1>ОЦЕНИТЕ<br><em>КАЧЕСТВО</em></h1>
+  <p class="hero-sub">Ваш отзыв напрямую влияет на развитие объекта. Честно и быстро — 3 минуты.</p>
+</div>
+
+<div class="progress-wrap">
+  <div class="progress-row">
+    <span class="progress-label" id="prog-label">Шаг 1 из 5</span>
+    <span class="progress-pct" id="prog-pct">20%</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-fill" id="prog" style="width:20%"></div>
+  </div>
+</div>
+
+<div class="page">
+
+  <div class="dots" id="dots">
+    <div class="dot active"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+    <div class="dot"></div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="step active" id="step1">
+    <div class="block" style="border-radius:12px;margin-bottom:1rem">
+      <div class="block-label">О вашей команде</div>
+
+      <div class="q">
+        <div class="q-label">Уровень соревнований</div>
+        <div class="radio-group" id="r-level">
+          <div class="radio-item" data-val="pro" onclick="selectRadio('r-level',this)"><div class="rdot"></div>Профессиональная лига (КПЛ / первая лига)</div>
+          <div class="radio-item" data-val="youth" onclick="selectRadio('r-level',this)"><div class="rdot"></div>Молодёжная академия (U-8 — U-21)</div>
+          <div class="radio-item" data-val="amateur" onclick="selectRadio('r-level',this)"><div class="rdot"></div>Любительский / корпоративный футбол</div>
+          <div class="radio-item" data-val="women" onclick="selectRadio('r-level',this)"><div class="rdot"></div>Женский футбол</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="q">
+        <div class="q-label">Как часто пользуетесь Air Arena?</div>
+        <div class="pills" id="p-freq">
+          <div class="pill" onclick="togglePill(this)">Раз в неделю</div>
+          <div class="pill" onclick="togglePill(this)">2–3 раза в неделю</div>
+          <div class="pill" onclick="togglePill(this)">Ежедневно</div>
+          <div class="pill" onclick="togglePill(this)">Сезонно</div>
+          <div class="pill" onclick="togglePill(this)">Впервые</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav">
+      <span class="step-count">1 / 5</span>
+      <button class="btn-next" onclick="goStep(2)">Далее <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3.5 8a.5.5 0 0 1 .5-.5h6.793L8.146 4.854a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L10.793 8.5H4a.5.5 0 0 1-.5-.5z"/></svg></button>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step" id="step2">
+    <div class="block" style="border-radius:12px 12px 4px 4px">
+      <div class="block-label">Покрытие и газон</div>
+      <div class="q">
+        <div class="q-label">Общее качество покрытия</div>
+        <div class="q-hint">Ровность · амортизация · травмобезопасность</div>
+        <div class="stars" id="s-pitch" data-key="pitch"></div>
+      </div>
+      <div class="divider"></div>
+      <div class="q">
+        <div class="q-label">Что устраивает?</div>
+        <div class="pills" id="p-pitch-good">
+          <div class="pill" onclick="togglePill(this)">Ровная поверхность</div>
+          <div class="pill" onclick="togglePill(this)">Мягкая амортизация</div>
+          <div class="pill" onclick="togglePill(this)">Нет бугров и ям</div>
+          <div class="pill" onclick="togglePill(this)">Чёткая разметка</div>
+          <div class="pill" onclick="togglePill(this)">Безопасно для суставов</div>
+          <div class="pill" onclick="togglePill(this)">Стабильный отскок мяча</div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="q">
+        <div class="q-label">Что улучшить?</div>
+        <div class="pills" id="p-pitch-bad">
+          <div class="pill" onclick="togglePill(this)">Выровнять поверхность</div>
+          <div class="pill" onclick="togglePill(this)">Обновить разметку</div>
+          <div class="pill" onclick="togglePill(this)">Заменить покрытие</div>
+          <div class="pill" onclick="togglePill(this)">Улучшить дренаж</div>
+          <div class="pill" onclick="togglePill(this)">Убрать скользкие зоны</div>
+          <div class="pill" onclick="togglePill(this)">Изменить размер поля</div>
+        </div>
+      </div>
+    </div>
+    <div class="block" style="border-radius:4px 4px 12px 12px;margin-bottom:1rem">
+      <div class="q">
+        <div class="q-label">Комментарий <span class="optional">(необязательно)</span></div>
+        <textarea id="txt-pitch" placeholder="Например: в левом углу есть бугор, правый фланг скользит..."></textarea>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="goStep(1)"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M12.5 8a.5.5 0 0 0-.5-.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H12a.5.5 0 0 0 .5-.5z"/></svg> Назад</button>
+      <span class="step-count">2 / 5</span>
+      <button class="btn-next" onclick="goStep(3)">Далее <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3.5 8a.5.5 0 0 1 .5-.5h6.793L8.146 4.854a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L10.793 8.5H4a.5.5 0 0 1-.5-.5z"/></svg></button>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step" id="step3">
+    <div class="block" style="border-radius:12px 12px 4px 4px">
+      <div class="block-label">Инфраструктура</div>
+      <div class="q">
+        <div class="q-label">Раздевалки и душевые</div>
+        <div class="stars" id="s-locker" data-key="locker"></div>
+      </div>
+      <div class="divider"></div>
+      <div class="q">
+        <div class="q-label">Освещение купола</div>
+        <div class="stars" id="s-light" data-key="light"></div>
+      </div>
+      <div class="divider"></div>
+      <div class="q">
+        <div class="q-label">Парковка и транспортная доступность</div>
+        <div class="stars" id="s-park" data-key="park"></div>
+      </div>
+      <div class="divider"></div>
+      <div class="q">
+        <div class="q-label">Чистота и порядок объекта</div>
+        <div class="stars" id="s-clean" data-key="clean"></div>
+      </div>
+    </div>
+    <div class="block" style="border-radius:4px 4px 12px 12px;margin-bottom:1rem">
+      <div class="q">
+        <div class="q-label">Что нуждается в улучшении?</div>
+        <div class="pills" id="p-infra">
+          <div class="pill" onclick="togglePill(this)">Раздевалки</div>
+          <div class="pill" onclick="togglePill(this)">Душевые</div>
+          <div class="pill" onclick="togglePill(this)">Туалеты</div>
+          <div class="pill" onclick="togglePill(this)">Трибуны</div>
+          <div class="pill" onclick="togglePill(this)">Освещение</div>
+          <div class="pill" onclick="togglePill(this)">Wi-Fi</div>
+          <div class="pill" onclick="togglePill(this)">Парковка</div>
+          <div class="pill" onclick="togglePill(this)">Буфет</div>
+          <div class="pill" onclick="togglePill(this)">Конференц-зал</div>
+          <div class="pill" onclick="togglePill(this)">Лобби</div>
+          <div class="pill" onclick="togglePill(this)">Хранение инвентаря</div>
+          <div class="pill" onclick="togglePill(this)">Медкабинет</div>
+        </div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="goStep(2)"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M12.5 8a.5.5 0 0 0-.5-.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H12a.5.5 0 0 0 .5-.5z"/></svg> Назад</button>
+      <span class="step-count">3 / 5</span>
+      <button class="btn-next" onclick="goStep(4)">Далее <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3.5 8a.5.5 0 0 1 .5-.5h6.793L8.146 4.854a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L10.793 8.5H4a.5.5 0 0 1-.5-.5z"/></svg></button>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="step" id="step4">
+    <div class="block" style="border-radius:12px 12px 4px 4px">
+      <div class="block-label">Сервис</div>
+      <div class="q">
+        <div class="q-label">Удобство и скорость бронирования</div>
+        <div class="stars" id="s-book" data-key="book"></div>
+      </div>
+      <div class="divider"></div>
+      <div class="q">
+        <div class="q-label">Профессионализм персонала</div>
+        <div class="stars" id="s-staff" data-key="staff"></div>
+      </div>
+      <div class="divider"></div>
+      <div class="q">
+        <div class="q-label">Решение проблем и жалоб</div>
+        <div class="stars" id="s-issues" data-key="issues"></div>
+      </div>
+      <div class="divider"></div>
+      <div class="q">
+        <div class="q-label">Какие дополнительные услуги интересуют?</div>
+        <div class="pills" id="p-services">
+          <div class="pill" onclick="togglePill(this)">Видеоаналитика</div>
+          <div class="pill" onclick="togglePill(this)">GPS-трекеры игроков</div>
+          <div class="pill" onclick="togglePill(this)">Физиотерапевт</div>
+          <div class="pill" onclick="togglePill(this)">Питание и снэки</div>
+          <div class="pill" onclick="togglePill(this)">Аренда формы</div>
+          <div class="pill" onclick="togglePill(this)">Тренерский штаб</div>
+          <div class="pill" onclick="togglePill(this)">Прямые трансляции</div>
+          <div class="pill" onclick="togglePill(this)">Детский лагерь</div>
+          <div class="pill" onclick="togglePill(this)">Онлайн-расписание</div>
+          <div class="pill" onclick="togglePill(this)">VIP-раздевалка</div>
+        </div>
+      </div>
+    </div>
+    <div class="block" style="border-radius:4px 4px 12px 12px;margin-bottom:1rem">
+      <div class="q">
+        <div class="q-label">Комментарий по сервису <span class="optional">(необязательно)</span></div>
+        <textarea id="txt-service" placeholder="Что особенно понравилось или расстроило?"></textarea>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="goStep(3)"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M12.5 8a.5.5 0 0 0-.5-.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H12a.5.5 0 0 0 .5-.5z"/></svg> Назад</button>
+      <span class="step-count">4 / 5</span>
+      <button class="btn-next" onclick="goStep(5)">Далее <svg viewBox="0 0 16 16" fill="currentColor"><path d="M3.5 8a.5.5 0 0 1 .5-.5h6.793L8.146 4.854a.5.5 0 1 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L10.793 8.5H4a.5.5 0 0 1-.5-.5z"/></svg></button>
+    </div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="step" id="step5">
+    <div class="block" style="border-radius:12px 12px 4px 4px">
+      <div class="block-label">Итоговая оценка</div>
+      <div class="q">
+        <div class="q-label">Насколько вероятно, что порекомендуете Air Arena другому клубу?</div>
+        <div class="q-hint">0 — точно нет &nbsp;·&nbsp; 10 — однозначно да</div>
+        <div class="nps-row" id="nps"></div>
+        <div class="nps-labels"><span>Не порекомендую</span><span>Однозначно да</span></div>
+      </div>
+      <div class="divider"></div>
+      <div class="q">
+        <div class="q-label">Общая оценка Air Arena</div>
+        <div class="stars" id="s-overall" data-key="overall"></div>
+      </div>
+    </div>
+    <div class="block" style="border-radius:4px 4px 4px 4px">
+      <div class="q">
+        <div class="q-label">Главное пожелание</div>
+        <textarea id="txt-main" placeholder="Что одно изменение сделало бы ваш опыт значительно лучше?"></textarea>
+      </div>
+    </div>
+    <div class="block" style="border-radius:4px 4px 12px 12px;margin-bottom:1rem">
+      <div class="q">
+        <div class="q-label">Можно ли с вами связаться для уточнений?</div>
+        <div class="pills" id="p-contact">
+          <div class="pill" onclick="togglePill(this)">Да, WhatsApp</div>
+          <div class="pill" onclick="togglePill(this)">Да, Email</div>
+          <div class="pill" onclick="togglePill(this)">Нет, анонимно</div>
+        </div>
+      </div>
+    </div>
+    <div class="nav">
+      <button class="btn-back" onclick="goStep(4)"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M12.5 8a.5.5 0 0 0-.5-.5H5.707l2.147-2.146a.5.5 0 1 0-.708-.708l-3 3a.5.5 0 0 0 0 .708l3 3a.5.5 0 0 0 .708-.708L5.707 8.5H12a.5.5 0 0 0 .5-.5z"/></svg> Назад</button>
+      <span class="step-count">5 / 5</span>
+      <button class="btn-submit" id="submitBtn" onclick="submitForm()">
+        Отправить отзыв
+        <svg viewBox="0 0 16 16" fill="currentColor" style="width:13px;height:13px"><path d="M15.854.146a.5.5 0 0 1 .11.54l-5.819 14.547a.75.75 0 0 1-1.329.124l-3.178-4.995L.643 7.184a.75.75 0 0 1 .124-1.33L15.314.037a.5.5 0 0 1 .54.11z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- THANK YOU -->
+  <div class="step" id="step6">
+    <div class="thankyou">
+      <div class="ty-ring">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <div class="ty-title">СПАСИБО!</div>
+      <p class="ty-sub">Ваш отзыв принят. Мы изучим каждый ответ и постараемся сделать Air Arena лучше для вашей команды.</p>
+      <button class="btn-next" onclick="location.reload()" style="margin:0 auto">
+        Заполнить снова
+        <svg viewBox="0 0 16 16" fill="currentColor" style="width:13px;height:13px"><path d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/><path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/></svg>
+      </button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+var ratings={};
+
+function initStars(){
+  document.querySelectorAll('.stars[data-key]').forEach(function(c){
+    c.innerHTML='';
+    var key=c.dataset.key;
+    for(var i=1;i<=5;i++){
+      var s=document.createElement('span');
+      s.className='star';s.textContent='★';
+      (function(star,val,k,cont){
+        star.onmouseenter=function(){
+          cont.querySelectorAll('.star').forEach(function(x,idx){x.className='star'+(idx<val?' on':'');});
+        };
+        star.onmouseleave=function(){
+          var cur=ratings[k]||0;
+          cont.querySelectorAll('.star').forEach(function(x,idx){x.className='star'+(idx<cur?' on':'');});
+        };
+        star.onclick=function(){
+          ratings[k]=val;
+          cont.querySelectorAll('.star').forEach(function(x,idx){x.className='star'+(idx<val?' on':'');});
+        };
+      })(s,i,key,c);
+      c.appendChild(s);
+    }
+  });
+}
+
+function initNPS(){
+  var c=document.getElementById('nps');
+  for(var i=0;i<=10;i++){
+    var b=document.createElement('button');
+    b.className='nps-btn';b.textContent=i;
+    (function(btn){
+      btn.onclick=function(){
+        document.querySelectorAll('.nps-btn').forEach(function(x){x.className='nps-btn';});
+        btn.className='nps-btn active';
+      };
+    })(b);
+    c.appendChild(b);
+  }
+}
+
+function togglePill(el){el.classList.toggle('active');}
+
+function selectRadio(id,el){
+  document.querySelectorAll('#'+id+' .radio-item').forEach(function(x){x.classList.remove('active');});
+  el.classList.add('active');
+}
+
+function updateDots(n){
+  var dots=document.querySelectorAll('.dot');
+  dots.forEach(function(d,i){
+    d.className='dot';
+    if(i===n-1) d.classList.add('active');
+    else if(i<n-1) d.classList.add('done');
+  });
+}
+
+function goStep(n){
+  document.querySelectorAll('.step').forEach(function(s){s.classList.remove('active');});
+  document.getElementById('step'+n).classList.add('active');
+  var pct=Math.round(n/5*100);
+  document.getElementById('prog').style.width=pct+'%';
+  document.getElementById('prog-label').textContent=n<6?'Шаг '+n+' из 5':'Завершено';
+  document.getElementById('prog-pct').textContent=(n<6?pct:100)+'%';
+  if(n<=5) updateDots(n);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function collectAnswers(){
+  var d={};
+  var lvl=document.querySelector('#r-level .radio-item.active');
+  d['Уровень команды']=lvl?lvl.dataset.val:'—';
+  d['Частота посещений']=Array.from(document.querySelectorAll('#p-freq .pill.active')).map(function(x){return x.textContent;}).join(', ')||'—';
+  d['Оценка газона']=(ratings['pitch']||'—')+'/5';
+  d['Плюсы покрытия']=Array.from(document.querySelectorAll('#p-pitch-good .pill.active')).map(function(x){return x.textContent;}).join(', ')||'—';
+  d['Минусы покрытия']=Array.from(document.querySelectorAll('#p-pitch-bad .pill.active')).map(function(x){return x.textContent;}).join(', ')||'—';
+  d['Комментарий газон']=document.getElementById('txt-pitch').value||'—';
+  d['Оценка раздевалок']=(ratings['locker']||'—')+'/5';
+  d['Оценка освещения']=(ratings['light']||'—')+'/5';
+  d['Оценка парковки']=(ratings['park']||'—')+'/5';
+  d['Оценка чистоты']=(ratings['clean']||'—')+'/5';
+  d['Что улучшить (инфра)']=Array.from(document.querySelectorAll('#p-infra .pill.active')).map(function(x){return x.textContent;}).join(', ')||'—';
+  d['Оценка бронирования']=(ratings['book']||'—')+'/5';
+  d['Оценка персонала']=(ratings['staff']||'—')+'/5';
+  d['Оценка решения проблем']=(ratings['issues']||'—')+'/5';
+  d['Желаемые услуги']=Array.from(document.querySelectorAll('#p-services .pill.active')).map(function(x){return x.textContent;}).join(', ')||'—';
+  d['Комментарий сервис']=document.getElementById('txt-service').value||'—';
+  var nps=document.querySelector('.nps-btn.active');
+  d['NPS (0-10)']=nps?nps.textContent:'—';
+  d['Общая оценка']=(ratings['overall']||'—')+'/5';
+  d['Главное пожелание']=document.getElementById('txt-main').value||'—';
+  d['Связь']=Array.from(document.querySelectorAll('#p-contact .pill.active')).map(function(x){return x.textContent;}).join(', ')||'—';
+  return d;
+}
+
+function submitForm(){
+  var btn=document.getElementById('submitBtn');
+  btn.textContent='Отправка...';
+  btn.disabled=true;
+  var fd=new FormData();
+  var ans=collectAnswers();
+  Object.keys(ans).forEach(function(k){fd.append(k,ans[k]);});
+  fetch('https://formspree.io/f/mkolqjbb',{method:'POST',body:fd,headers:{'Accept':'application/json'}})
+  .then(function(r){
+    if(r.ok){
+      goStep(6);
+      document.getElementById('prog').style.width='100%';
+      document.getElementById('prog-pct').textContent='100%';
+      document.getElementById('prog-label').textContent='Завершено';
+      document.getElementById('dots').style.display='none';
+    } else throw new Error();
+  })
+  .catch(function(){
+    btn.textContent='Отправить отзыв';
+    btn.disabled=false;
+    alert('Ошибка отправки. Проверьте интернет и попробуйте снова.');
+  });
+}
+
+initStars();
+initNPS();
+</script>
+</body>
+</html>
